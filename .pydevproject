@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse-pydev version="1.0"?><pydev_project>
+<pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+<pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 3.0</pydev_property>
+<pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
+<path>/${PROJECT_DIR_NAME}/src/entity/colliders</path>
+<path>/${PROJECT_DIR_NAME}/src/entity/entities</path>
+<path>/${PROJECT_DIR_NAME}/src/entity/renderers</path>
+<path>/${PROJECT_DIR_NAME}/src/game/collision</path>
+<path>/${PROJECT_DIR_NAME}/src/game/graphics</path>
+<path>/${PROJECT_DIR_NAME}/src/game/main</path>
+<path>/${PROJECT_DIR_NAME}/src/utils</path>
+<path>/${PROJECT_DIR_NAME}/src/game/logic</path>
+</pydev_pathproperty>
+</pydev_project>
