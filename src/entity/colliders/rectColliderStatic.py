@@ -5,7 +5,7 @@ class RectColliderStatic(RectCollider):
         RectCollider.__init__(self, collisionSystem)
         
     def handleCollision(self, otherCollider):
-        otherCollider.handleStaticRectCollision()
+        otherCollider.handleStaticRectCollision(self)
         
     def handleDynamicRectCollision(self, dynamicRect):
         self.collisionSystem.handleDynamicRectVsStaticRectCollision(dynamicRect, self)

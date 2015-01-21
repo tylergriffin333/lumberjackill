@@ -22,6 +22,9 @@ class Input():#TODO: should this inherit from gameModule?
     def curMouseScreenY(self):
         return self.curMouseScreenPos[1]
         
+    def run(self):
+        self.handleInputEvents()
+        
     def handleInputEvents(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 

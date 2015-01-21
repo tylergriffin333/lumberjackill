@@ -1,11 +1,7 @@
-from entity import Entity
+from posDimEntity import PosDimEntity
 from rectColliderStatic import RectColliderStatic
 
-class Tile(Entity):
+class Tile(PosDimEntity, RectColliderStatic):
     def __init__(self, game, x, y):
-        Entity.__init__(self, game)
+        PosDimEntity.__init__(self, game, x, y, 1.0, 1.0)
         RectColliderStatic.__init__(self, game.collisionSystem)
-        self.x=x
-        self.y=y
-        self.width=1
-        self.height=1

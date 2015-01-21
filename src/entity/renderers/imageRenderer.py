@@ -6,5 +6,6 @@ class ImageRenderer(Renderer):
         self.image=self.graphicsRenderer.loadImage(imageFilename)
         
     def render(self):
-        self.graphicsRenderer.drawImage(self.image, self.x, self.y)
+        self.graphicsRenderer.drawImage(self.image, self.left, self.top)
+        #self.graphicsRenderer.drawRect(self)
         
