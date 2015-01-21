@@ -9,13 +9,13 @@ class GraphicsProxyPygame():
     def __init__(self):
         pygame.init()
         
-        shrink=False
+        shrink=True
         
         if shrink:
             import os
-            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680, 1480)#(960, 540)
-            self.heightPix=200#in pixels
-            self.widthPix=300
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680, 1380)#(960, 540)
+            self.heightPix=300#in pixels
+            self.widthPix=400
             self.screen=pygame.display.set_mode([self.widthPix, self.heightPix])
             self.lineThickness=1
         else:
@@ -69,7 +69,7 @@ class GraphicsProxyPygame():
         self.images.append(image)
         return len(self.images)-1#return imageIndex
     
-    def drawImage(self, imageIndex, x, y):
+    def drawImage(self, imageIndex, x, y, width, height):
         rect=self.images[imageIndex].get_rect()
         rect.x=x
         rect.y=y

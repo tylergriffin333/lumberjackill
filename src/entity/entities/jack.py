@@ -1,11 +1,13 @@
 from posDimEntity import PosDimEntity
+from dynamicEntity import DynamicEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageRenderer import ImageRenderer
 import utils
 
-class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inherit from DynamicEntity
+class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TODO: should inherit from FallingEntity
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, .48, .75)
+        DynamicEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
         ImageRenderer.__init__(self, game.graphicsRenderer, "jack.png")
         
@@ -18,36 +20,31 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         self.inAirMoveRatio=.5#xAccel*inAirMoveRatio is how fast you can accelerate via controls when in-air
         self.jumpSpeed=-.012#your speed in the upward direction when when you jump 
         self.onGround=False
-        self.xVel=0#current velocity
-        self.yVel=0
         self.game.graphicsRenderer.jack=self
         self.rightImage=self.image
         self.leftImage=self.graphicsRenderer.loadImage("jack2.png")
         self.releasedJumpBtnSinceLastJump=True
-        
-#     def isCollidingWithRect(self, otherRect):
-#         isColliding=RectColliderDynamic.isCollidingWithRect(self, otherRect)
-#           
-#         if isColliding:
-#             self.image=self.image1
-#             print(str(self.game.delta))
-#         else:
-#             self.image=self.image2
-#           
-#         return isColliding
         
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
         if self.yVel>0:#is falling
             self.yVel=0#stop falling
             self.onGround=True
         
-#     def hitTop(self, otherCollider):
-#         if(self.yVel>0):#if falling
-#             self.yVel=0#stop falling
-#             self.y=otherCollider.top+self.height#prevent fall-through
-#             self.onGround=True
+    def hitTop(self, otherCollider):
+        if self.yVel<0:
+            self.yVel=0
+            
+    def hitLeft(self, otherCollider):
+        if self.xVel<0:
+            self.xVel=0
+    
+    def hitRight(self, otherCollider):
+        if self.xVel>0:
+            self.xVel=0
         
     def run(self):
+        DynamicEntity.run(self)
+        
         if not self.releasedJumpBtnSinceLastJump:
             if not self.game.input.jump:
                 self.releasedJumpBtnSinceLastJump=True
@@ -77,8 +74,7 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         
         if self.game.input.left: self.xVel-=curXAccel*self.game.delta#move
         if self.game.input.right: self.xVel+=curXAccel*self.game.delta
-        #if self.game.input.left or self.game.input.joyAxisX<0: self.xVel-=self.getAccel(self.xAccel, self.game.delta)#move
-        #if self.game.input.right or self.game.input.joyAxisX>0: self.xVel+=self.getAccel(self.xAccel, self.game.delta)
+        
         self.xVel+=self.game.input.joyAxisX*curXAccel*self.game.delta
         
         if self.game.input.running: curMaxSpeed=self.maxSpeed
@@ -87,8 +83,5 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         if self.xVel<-curMaxSpeed: self.xVel=-curMaxSpeed#limit horizontal speed
         if self.xVel>curMaxSpeed: self.xVel=curMaxSpeed
         if self.yVel>self.termVel: self.yVel=self.termVel
-        
-        self.y+=self.yVel*self.game.delta
-        self.x+=self.xVel*self.game.delta
         
         self.onGround=False

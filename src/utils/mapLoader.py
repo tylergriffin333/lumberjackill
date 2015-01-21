@@ -1,11 +1,14 @@
 from tileStone import TileStone
 from jack import Jack
+from tree import Tree
 
 def genEntFromChar(char, x, y, game):
     if char==" ":
         game.addTile(None, x, y)
     elif char=="J":
         game.addEntity(Jack(game, x, y))#maybe entities should know how to add themselves to the game, so I don't have to know if they're a tile or a dynamic entity here.
+    elif char=="T":
+        game.addEntity(Tree(game, x, y))#maybe entities should know how to add themselves to the game, so I don't have to know if they're a tile or a dynamic entity here.
     else:
         game.addTile(TileStone(game, x, y), x, y)
 

@@ -8,9 +8,9 @@ import assetLoader
 class GraphicsProxyRabbyt():
     def __init__(self):
         rabbyt.data_directory = os.path.dirname(__file__)#rabbyt
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0, 0)#(1680,1080)#position window
+        #os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680,1380)#position window
         pygame.init()
-        screenSize = self.widthPix, self.heightPix = 1920, 1080#800, 600
+        screenSize = self.widthPix, self.heightPix = 1920, 1080#400, 300
         pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF | pygame.FULLSCREEN)#rabbyt
         rabbyt.set_viewport(screenSize)#rabbyt
         rabbyt.set_default_attribs()#rabbyt
@@ -40,8 +40,8 @@ class GraphicsProxyRabbyt():
         self.images.append(image)
         return len(self.images)-1#return imageIndex
     
-    def drawImage(self, imageIndex, x, y):
+    def drawImage(self, imageIndex, x, y, width, height):
         image=self.images[imageIndex]
-        image.x=x-self.widthPix/2
-        image.y=-y+self.heightPix/2
+        image.x=x+width/2-self.widthPix/2
+        image.y=-y-height/2+self.heightPix/2
         image.render()

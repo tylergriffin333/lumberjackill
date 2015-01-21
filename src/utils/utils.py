@@ -3,6 +3,7 @@ import random
 import sys
 import time
 
+gravAccel=.00005#how fast you fall (acceleration due to gravity per millisecond)
 Tau=math.pi*2
 PI=math.pi
 E=math.e

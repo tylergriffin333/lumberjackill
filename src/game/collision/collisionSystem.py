@@ -62,18 +62,10 @@ class CollisionSystem(GameModule):
                 if entity1 != entity2:
                     if entity1.isCollidingWith(entity2):
                         entity1.handleCollision(entity2)
-        
-#         for column in self.tiles:
-#             for tile in column:
-#                 if tile != None:
-#                     for entity in self.entities:
-#                         if tile.isCollidingWith(entity):
-#                             tile.handleCollision(entity)
-#                             #entity.handleCollision(tile)
                             
         for entity in self.entities:
-            for x in range(int(entity.x)-1, int(entity.x)+2):
-                for y in range(int(entity.y)-1, int(entity.y)+2):
+            for x in range(int(entity.left), int(entity.right)+2):
+                for y in range(int(entity.top), int(entity.bottom)+2):
                     if x>=0 and x<len(self.tiles) and y>=0 and y<len(self.tiles[0]):
                         if self.tiles[x][y]!=None:
                             if self.tiles[x][y].isCollidingWith(entity):
