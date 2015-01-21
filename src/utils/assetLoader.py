@@ -9,3 +9,6 @@ def loadImage(filename):
 
 def loadSound(filename):
     return pygame.mixer.Sound(assetsDir+"sounds/"+filename)
+
+def loadMap(filename):
+    file=open(assetsDir+"maps"+filename)
