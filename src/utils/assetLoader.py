@@ -1,7 +1,7 @@
 #this module will be used to load assets (images, sounds, ect...) from disk into memory
 import pygame
 import mapLoader
-#import rabbyt
+import rabbyt
 
 assetsDir="../../../assets/"
 
@@ -16,3 +16,6 @@ def getMapDimensionsFromMapFile(filename):
 
 def loadMap(filename, game):
     mapLoader.loadMap(assetsDir+"maps/"+filename, game)
+    
+def loadRabbytImage(filename):
+    return rabbyt.Sprite(assetsDir+"images/"+filename)

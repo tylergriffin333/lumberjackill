@@ -5,7 +5,7 @@ import pygame
 import utils
 import assetLoader
 
-class GraphicsProxy():
+class GraphicsProxyPygame():
     def __init__(self):
         pygame.init()
         

@@ -2,7 +2,8 @@
 #This class should do all the scaling.  
 #this class should not care what drawing/windowing library graphicsProxy uses.
 
-from graphicsProxy import GraphicsProxy
+from graphicsProxyRabbyt import GraphicsProxyRabbyt
+#from graphicsProxyPygame import GraphicsProxyPygame
 from gameModule import GameModule
 import utils
 
@@ -10,7 +11,8 @@ class GraphicsRenderer(GameModule):
     def __init__(self, game):
         GameModule.__init__(self, game)
         self.reqAttr="render"#required attribute for entities to have to be added to entities or tiles lists
-        self.graphicsProxy=GraphicsProxy()
+        self.graphicsProxy=GraphicsProxyRabbyt()
+        #self.graphicsProxy=GraphicsProxyPygame()
         
         self.screenHeight=20.0#this is the screen-height in game-units
         pixelToGameUnitRatio=100.0#for each image, there should be a 100 to 1 pixel to game unit ratio
@@ -42,15 +44,18 @@ class GraphicsRenderer(GameModule):
         self.graphicsProxy.drawRectangle(rect.left*100, rect.top*100, rect.width*100, rect.height*100, self.graphicsProxy.black, 1)
         
     def run(self):
-        targetScreenXPos=self.jack.x-self.screenWidth/4
+        targetScreenXPos=self.jack.x-self.screenWidth/2
         targetScreenYPos=self.jack.y-self.screenHeight/2
         
-        if utils.abs(self.screenX-targetScreenXPos)>1:
-            if self.screenX<targetScreenXPos: self.screenX+=self.screenScroolSpeed*self.game.delta
-            elif self.screenX>targetScreenXPos: self.screenX-=self.screenScroolSpeed*self.game.delta
-        if utils.abs(self.screenY-targetScreenYPos)>1:
-            if self.screenY<targetScreenYPos: self.screenY+=self.screenScroolSpeed*self.game.delta
-            elif self.screenY>targetScreenYPos: self.screenY-=self.screenScroolSpeed*self.game.delta
+        self.screenX=targetScreenXPos
+        self.screenY=targetScreenYPos
+        
+#         if utils.abs(self.screenX-targetScreenXPos)>1:
+#             if self.screenX<targetScreenXPos: self.screenX+=self.screenScroolSpeed*self.game.delta
+#             elif self.screenX>targetScreenXPos: self.screenX-=self.screenScroolSpeed*self.game.delta
+#         if utils.abs(self.screenY-targetScreenYPos)>1:
+#             if self.screenY<targetScreenYPos: self.screenY+=self.screenScroolSpeed*self.game.delta
+#             elif self.screenY>targetScreenYPos: self.screenY-=self.screenScroolSpeed*self.game.delta
         
         self.render()
         

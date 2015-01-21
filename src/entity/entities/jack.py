@@ -11,7 +11,7 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         
         self.maxSpeed=.008#can't run left or right faster than this
         self.walkSpeed=self.maxSpeed*.6
-        self.termVel=.01#max fall speed
+        self.termVel=1#.01#max fall speed
         self.xAccel=self.maxSpeed/300#how much you accelerate left or right per millisecond
         self.frictionDeccel=self.maxSpeed/100.0#decceleration caused by friction.  how much to slow down by every millisecond
         self.gravAccel=.00005#how fast you fall (acceleration due to gravity per millisecond) TODO: this should be in a util class as a universal constant
