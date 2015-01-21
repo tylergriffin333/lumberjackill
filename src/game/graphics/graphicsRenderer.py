@@ -42,7 +42,7 @@ class GraphicsRenderer(GameModule):
         self.graphicsProxy.drawRectangle(rect.left*100, rect.top*100, rect.width*100, rect.height*100, self.graphicsProxy.black, 1)
         
     def run(self):
-        targetScreenXPos=self.jack.x-self.screenWidth/2
+        targetScreenXPos=self.jack.x-self.screenWidth/4
         targetScreenYPos=self.jack.y-self.screenHeight/2
         
         if utils.abs(self.screenX-targetScreenXPos)>1:

@@ -13,9 +13,9 @@ class GraphicsProxy():
         
         if shrink:
             import os
-            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (960, 540)#(1680, 1480)
-            self.heightPix=540#in pixels
-            self.widthPix=960
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680, 1480)#(960, 540)
+            self.heightPix=200#in pixels
+            self.widthPix=300
             self.screen=pygame.display.set_mode([self.widthPix, self.heightPix])
             self.lineThickness=1
         else:

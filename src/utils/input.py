@@ -10,7 +10,7 @@ class Input():#TODO: should this inherit from gameModule?
         self.left=False
         self.right=False
         self.down=False
-        self.up=False
+        self.jump=False
         self.joyAxisX=0.0
         self.joyAxisY=0.0
         self.running=False
@@ -56,13 +56,13 @@ class Input():#TODO: should this inherit from gameModule?
     def joystickButtonReleased(self, event):
         if event.button==13: self.left=False
         elif event.button==14: self.right=False
-        elif event.button==0: self.up=False
+        elif event.button==0: self.jump=False
         elif event.button==2: self.running=False
     
     def joystickButtonPressed(self, event):
         if event.button==13: self.left=True
         elif event.button==14: self.right=True
-        elif event.button==0: self.up=True
+        elif event.button==0: self.jump=True
         elif event.button==2: self.running=True
     
     def joystickMoved(self, event):
@@ -77,7 +77,8 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_a or code==pygame.K_LEFT: self.left=True
         elif code==pygame.K_s or code==pygame.K_DOWN: self.down=True
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=True
-        elif code==pygame.K_w or code==pygame.K_UP: self.up=True
+        elif code==pygame.K_w or code==pygame.K_UP: self.jump=True
+        elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=True
             
     def keyReleased(self, e):
         code=e.key
@@ -86,7 +87,8 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_a or code==pygame.K_LEFT: self.left=False
         elif code==pygame.K_s or code==pygame.K_DOWN: self.down=False
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=False
-        elif code==pygame.K_w or code==pygame.K_UP: self.up=False
+        elif code==pygame.K_w or code==pygame.K_UP: self.jump=False
+        elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=False
         
     def mouseMoved(self, e):
         #self.curMouseScreenPos=e.pos

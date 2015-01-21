@@ -12,9 +12,10 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         self.maxSpeed=.008#can't run left or right faster than this
         self.walkSpeed=self.maxSpeed*.6
         self.termVel=.01#max fall speed
-        self.xAccel=.0001#how fast you accelerate left or right per millisecond
-        self.frictionDeccel=.999#decceleration caused by friction
+        self.xAccel=self.maxSpeed/300#how much you accelerate left or right per millisecond
+        self.frictionDeccel=self.maxSpeed/100.0#decceleration caused by friction.  how much to slow down by every millisecond
         self.gravAccel=.00005#how fast you fall (acceleration due to gravity per millisecond) TODO: this should be in a util class as a universal constant
+        self.inAirMoveRatio=.5#xAccel*inAirMoveRatio is how fast you can accelerate via controls when in-air
         self.jumpSpeed=-.012#your speed in the upward direction when when you jump 
         self.onGround=False
         self.xVel=0#current velocity
@@ -35,17 +36,6 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
 #           
 #         return isColliding
         
-    def getAccel(self, accel, milliseconds):
-        accel*=milliseconds
-            
-        return accel
-    
-    def getDeccel(self, deccel, milliseconds):
-        for millisecond in range(milliseconds-1):
-            deccel*=deccel
-            
-        return deccel
-        
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
         if self.yVel>0:#is falling
             self.yVel=0#stop falling
@@ -58,25 +48,38 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
 #             self.onGround=True
         
     def run(self):
-        if self.game.input.left: self.xVel-=self.getAccel(self.xAccel, self.game.delta)#move
-        if self.game.input.right: self.xVel+=self.getAccel(self.xAccel, self.game.delta)
-        #if self.game.input.left or self.game.input.joyAxisX<0: self.xVel-=self.getAccel(self.xAccel, self.game.delta)#move
-        #if self.game.input.right or self.game.input.joyAxisX>0: self.xVel+=self.getAccel(self.xAccel, self.game.delta)
-        self.xVel+=self.game.input.joyAxisX*self.getAccel(self.xAccel, self.game.delta)
-        
         if not self.releasedJumpBtnSinceLastJump:
-            if not self.game.input.up:
+            if not self.game.input.jump:
                 self.releasedJumpBtnSinceLastJump=True
         
+        curXAccel=self.xAccel
+        
         if self.onGround:
-            if not (self.game.input.left or self.game.input.right) and utils.abs(self.game.input.joyAxisX)<.25:
-                self.xVel*=self.getDeccel(self.frictionDeccel, self.game.delta)#slow down from friction
+            if (not (self.game.input.left or self.game.input.right) and utils.abs(self.game.input.joyAxisX)<.25) or ((self.xVel<0 and (self.game.input.right or self.game.input.joyAxisX>0)) or (self.xVel>0 and (self.game.input.left or self.game.input.joyAxisX<0))):
+                slowDownAmt=self.frictionDeccel*self.game.delta#slow down from friction
+                if utils.abs(self.xVel)<utils.abs(slowDownAmt):
+                    self.xVel=0#this is as slow as you can get
+                else:
+                    if self.xVel<0:
+                        self.xVel+=slowDownAmt
+                    else:
+                        self.xVel-=slowDownAmt
             
-            if self.game.input.up and self.releasedJumpBtnSinceLastJump:#jump
+            if self.game.input.jump and self.releasedJumpBtnSinceLastJump:#jump
                 self.yVel=self.jumpSpeed
                 self.releasedJumpBtnSinceLastJump=False
+                
+            if self.xVel>0: self.image=self.rightImage
+            elif self.xVel<0: self.image=self.leftImage
         else:
-            self.yVel+=self.getAccel(self.gravAccel, self.game.delta)
+            self.yVel+=self.gravAccel*self.game.delta
+            curXAccel*=self.inAirMoveRatio#your ability to manuver is less when you're in the air
+        
+        if self.game.input.left: self.xVel-=curXAccel*self.game.delta#move
+        if self.game.input.right: self.xVel+=curXAccel*self.game.delta
+        #if self.game.input.left or self.game.input.joyAxisX<0: self.xVel-=self.getAccel(self.xAccel, self.game.delta)#move
+        #if self.game.input.right or self.game.input.joyAxisX>0: self.xVel+=self.getAccel(self.xAccel, self.game.delta)
+        self.xVel+=self.game.input.joyAxisX*curXAccel*self.game.delta
         
         if self.game.input.running: curMaxSpeed=self.maxSpeed
         else: curMaxSpeed=self.walkSpeed
@@ -87,8 +90,5 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic):#TODO: should inher
         
         self.y+=self.yVel*self.game.delta
         self.x+=self.xVel*self.game.delta
-        
-        if self.xVel>0: self.image=self.rightImage
-        elif self.xVel<0: self.image=self.leftImage
         
         self.onGround=False
