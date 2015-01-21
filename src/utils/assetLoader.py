@@ -2,6 +2,7 @@
 import pygame
 import mapLoader
 import rabbyt
+import animationLoader
 
 assetsDir="../../../assets/"
 
@@ -19,3 +20,6 @@ def loadMap(filename, game):
     
 def loadRabbytImage(filename):
     return rabbyt.Sprite(assetsDir+"images/"+filename)
+
+def loadAnimation(filename, imageAnimationRenderer):
+    return animationLoader.loadAnimation(assetsDir+"animations/"+filename, imageAnimationRenderer)

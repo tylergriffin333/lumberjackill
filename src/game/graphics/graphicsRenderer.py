@@ -33,8 +33,27 @@ class GraphicsRenderer(GameModule):
         y*=self.scale
         return x, y
         
+    def loadImageFlippedHorizontally(self, filename):#TODO: should disallow loading the same image twice.
+        return self.graphicsProxy.loadImageFlipHorizontally(filename, self.pixScale)
+        
     def loadImage(self, filename):#TODO: should disallow loading the same image twice.
         return self.graphicsProxy.loadImage(filename, self.pixScale)
+        
+    def loadImages(self, filenames):
+        images=[]
+        
+        for filename in filenames:
+            images.append(self.loadImage(filename))
+            
+        return images
+            
+    def loadImagesFlippedHorizontally(self, filenames):
+        images=[]
+        
+        for filename in filenames:
+            images.append(self.loadImageFlippedHorizontally(filename))
+            
+        return images
         
     def drawImage(self, imageIndex, x, y, width, height):
         screenPixelPos=self.gamePosToScreenPixPos(x, y)

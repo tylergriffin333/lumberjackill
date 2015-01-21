@@ -1,5 +1,9 @@
-path=images/evil_tree/running
-uniform_frame_length=25
+path=evil_tree/running/
+uniformFrameLength=17
+#recommended_entity_width=107
+#recommended_entity_height=152
+xOffset=-.71
+yOffset=-.42
 images=
 0018.png
 0019.png

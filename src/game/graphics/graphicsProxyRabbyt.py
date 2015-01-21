@@ -8,10 +8,10 @@ import assetLoader
 class GraphicsProxyRabbyt():
     def __init__(self):
         rabbyt.data_directory = os.path.dirname(__file__)#rabbyt
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680,1050)#position window
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1680,1350)#position window
         pygame.init()
-        screenSize = self.widthPix, self.heightPix = 1920, 1080#1680, 1050
-        pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF | pygame.FULLSCREEN)#rabbyt
+        screenSize = self.widthPix, self.heightPix = 400, 300#1920, 1080#1680, 1050#TODO: need to get native screen res and set to that.
+        pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF)# | pygame.FULLSCREEN)#rabbyt
         rabbyt.set_viewport(screenSize)#rabbyt
         rabbyt.set_default_attribs()#rabbyt
         
@@ -34,6 +34,11 @@ class GraphicsProxyRabbyt():
     def swapBuffer(self):
         pygame.display.flip()
         
+    def loadImageFlipHorizontally(self, filename, scale):#TODO: prevent loading duplicate images
+        imageIndex=self.loadImage(filename, scale)
+        self.images[imageIndex].scale_x*=-1
+        return imageIndex
+    
     def loadImage(self, filename, scale):#TODO: prevent loading duplicate images
         image=assetLoader.loadRabbytImage(filename)
         image.scale=scale
