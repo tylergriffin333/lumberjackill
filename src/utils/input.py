@@ -11,6 +11,13 @@ class Input():#TODO: should this inherit from gameModule?
         self.right=False
         self.down=False
         self.up=False
+        self.joyAxisX=0.0
+        self.joyAxisY=0.0
+        self.running=False
+        pygame.joystick.init()
+        self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+        for joystick in self.joysticks:
+                joystick.init()
         #self.leftMouse=False
         #self.curMouseScreenPos=[0, 0]
         
@@ -39,6 +46,29 @@ class Input():#TODO: should this inherit from gameModule?
                 self.mouseReleased(event)
             elif event.type==pygame.MOUSEMOTION:
                 self.mouseMoved(event)
+            elif event.type==pygame.JOYAXISMOTION:
+                self.joystickMoved(event)
+            elif event.type==pygame.JOYBUTTONDOWN:
+                self.joystickButtonPressed(event)
+            elif event.type==pygame.JOYBUTTONUP:
+                self.joystickButtonReleased(event)
+    
+    def joystickButtonReleased(self, event):
+        if event.button==13: self.left=False
+        elif event.button==14: self.right=False
+        elif event.button==0: self.up=False
+        elif event.button==2: self.running=False
+    
+    def joystickButtonPressed(self, event):
+        if event.button==13: self.left=True
+        elif event.button==14: self.right=True
+        elif event.button==0: self.up=True
+        elif event.button==2: self.running=True
+    
+    def joystickMoved(self, event):
+        if event.axis==0: self.joyAxisX=event.value
+        if event.axis==1: self.joyAxisY=event.value
+        #print(str(self.joyAxisX)+", "+str(self.joyAxisY))
     
     def keyPressed(self, e):
         code=e.key

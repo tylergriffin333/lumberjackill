@@ -3,12 +3,13 @@
 #this class should not care what drawing/windowing library graphicsProxy uses.
 
 from graphicsProxy import GraphicsProxy
-from jack import Jack
+from gameModule import GameModule
 import utils
 
-class GraphicsRenderer():
+class GraphicsRenderer(GameModule):
     def __init__(self, game):
-        self.game=game
+        GameModule.__init__(self, game)
+        self.reqAttr="render"#required attribute for entities to have to be added to entities or tiles lists
         self.graphicsProxy=GraphicsProxy()
         
         self.screenHeight=20.0#this is the screen-height in game-units
@@ -20,9 +21,6 @@ class GraphicsRenderer():
         self.screenX=0#the current screen position on the map
         self.screenY=0
         self.screenScroolSpeed=.005
-        
-        self.tiles=[]
-        self.entities=[]#renderers
         #self.jackImage=self.graphicsProxy.loadImage("jack.png", 4)
         #self.jack=Jack(self.game, 0, 0)
         
@@ -33,7 +31,7 @@ class GraphicsRenderer():
         y*=self.scale
         return x, y
         
-    def loadImage(self, filename):
+    def loadImage(self, filename):#TODO: should disallow loading the same image twice.
         return self.graphicsProxy.loadImage(filename, self.pixScale)
         
     def drawImage(self, imageIndex, x, y):
@@ -42,23 +40,6 @@ class GraphicsRenderer():
         
     def drawRect(self, rect):
         self.graphicsProxy.drawRectangle(rect.left*100, rect.top*100, rect.width*100, rect.height*100, self.graphicsProxy.black, 1)
-        
-    def instantiateTilesArray(self, width, height):
-        self.tiles=[]
-
-        for x in range(width):
-            column=[]
-            for y in range(height):
-                column.append(None)
-            self.tiles.append(column)
-            
-    def addTile(self, tile, x, y):
-        if hasattr(tile, "render"):
-            self.tiles[x][y]=tile
-        
-    def addEntity(self, entity):
-        if hasattr(entity, "render"):
-            self.entities.append(entity)
         
     def run(self):
         targetScreenXPos=self.jack.x-self.screenWidth/2
@@ -78,7 +59,7 @@ class GraphicsRenderer():
         self.graphicsProxy.fillBackground(self.graphicsProxy.white)
         #self.graphicsProxy.drawRectangle(0, 280, 500, 1, self.graphicsProxy.black, 1)
         #self.graphicsProxy.drawImage(self.jack.x, self.jack.y, 1, self.jackImage)
-        for entity in self.game.entities:
+        for entity in self.entities:
             if not entity.hidden:
                 entity.render()#TODO: should I pass GraphicsRenderer to renderer.render(), rather than passing GraphicsRenderer to renderer in it's constructor?
             

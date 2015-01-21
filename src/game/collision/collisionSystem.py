@@ -1,25 +1,9 @@
-class CollisionSystem():
-    def __init__(self, game):
-        self.game=game
-        self.entities=[]#renderers
-        self.tiles=[]
-    
-    def instantiateTilesArray(self, width, height):#TODO: this is replicated between gameMain, collisionSystem, and graphicsRenderer
-        self.tiles=[]
+from gameModule import GameModule
 
-        for x in range(width):
-            column=[]
-            for y in range(height):
-                column.append(None)
-            self.tiles.append(column)
-            
-    def addTile(self, tile, x, y):#TODO: this is replicated between gameMain, collisionSystem, and graphicsRenderer
-        if hasattr(tile, "isCollidingWith"):
-            self.tiles[x][y]=tile
-        
-    def addEntity(self, entity):#TODO: this is replicated between gameMain, collisionSystem, and graphicsRenderer
-        if hasattr(entity, "isCollidingWith"):
-            self.entities.append(entity)
+class CollisionSystem(GameModule):
+    def __init__(self, game):
+        GameModule.__init__(self, game)
+        self.reqAttr="isCollidingWith"#required attribute for entities to have to be added to entities or tiles lists
     
     ###############################################################################################################################################
     #####collision detection#######################################################################################################################
@@ -64,7 +48,7 @@ class CollisionSystem():
         self.handleRectVsRectCollision(dynamicRect1, dynamicRect2, .5)
     
     def handleDynamicRectVsStaticRectCollision(self, dynamicRect, staticRect):
-        self.handleRectVsRectCollision(dynamicRect, staticRect, 1)
+        self.handleRectVsRectCollision(dynamicRect, staticRect, 1.0)
         
     ###############################################################################################################################################
     #####run#######################################################################################################################################
