@@ -62,7 +62,7 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TOD
                     else:
                         self.xVel-=slowDownAmt
             
-            if self.game.input.jump and self.releasedJumpBtnSinceLastJump:#jump
+            if self.game.input.jump and self.releasedJumpBtnSinceLastJump:#jump #TODO: do mario-style jump where you can control how high you jump based on how long you hold the button.  to do a full-height jump, you should have to hold the jump button until you reach the pinnacle of your jump.
                 self.yVel=self.jumpSpeed
                 self.releasedJumpBtnSinceLastJump=False
                 

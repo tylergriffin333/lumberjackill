@@ -1,5 +1,4 @@
 from positionEntity import PositionEntity
-import utils
 
 class DynamicEntity(PositionEntity):
     def __init__(self, game, x, y):
