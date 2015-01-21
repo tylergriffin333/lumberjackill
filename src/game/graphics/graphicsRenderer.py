@@ -4,20 +4,22 @@
 
 from graphicsProxy import GraphicsProxy
 from jack import Jack
+import utils
 
 class GraphicsRenderer():
     def __init__(self, game):
         self.game=game
         self.graphicsProxy=GraphicsProxy()
         
-        screenHeight=20.0#this is the screen-height in game-units
+        self.screenHeight=20.0#this is the screen-height in game-units
         pixelToGameUnitRatio=100.0#for each image, there should be a 100 to 1 pixel to game unit ratio
-        self.scale=self.graphicsProxy.heightPix/screenHeight#game unit to screen pixel ratio
-        screenWidth=self.graphicsProxy.widthPix/self.scale
+        self.scale=self.graphicsProxy.heightPix/self.screenHeight#game unit to screen pixel ratio
+        self.screenWidth=self.graphicsProxy.widthPix/self.scale
         self.pixScale=self.scale/pixelToGameUnitRatio#this is what we should scale images by when loading them in
         #print(self.pixScale)
         self.screenX=0#the current screen position on the map
         self.screenY=0
+        self.screenScroolSpeed=.005
         
         self.tiles=[]
         self.entities=[]#renderers
@@ -59,6 +61,16 @@ class GraphicsRenderer():
             self.entities.append(entity)
         
     def run(self):
+        targetScreenXPos=self.jack.x-self.screenWidth/2
+        targetScreenYPos=self.jack.y-self.screenHeight/2
+        
+        if utils.abs(self.screenX-targetScreenXPos)>1:
+            if self.screenX<targetScreenXPos: self.screenX+=self.screenScroolSpeed*self.game.delta
+            elif self.screenX>targetScreenXPos: self.screenX-=self.screenScroolSpeed*self.game.delta
+        if utils.abs(self.screenY-targetScreenYPos)>1:
+            if self.screenY<targetScreenYPos: self.screenY+=self.screenScroolSpeed*self.game.delta
+            elif self.screenY>targetScreenYPos: self.screenY-=self.screenScroolSpeed*self.game.delta
+        
         self.render()
         
     def render(self):

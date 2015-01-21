@@ -42,17 +42,23 @@ class CollisionSystem():
         if rightOverlap<leftOverlap and rightOverlap<topOverlap and rightOverlap<bottomOverlap:#is rightOverlap the smallest?
             rect1.x-=rightOverlap*rect1MoveRatio
             rect2.x+=rightOverlap*rect2MoveRatio
-            #rect1.hitRight(rect2)
-            #rect2.hitLeft(rect1)
+            rect1.hitRight(rect2)
+            rect2.hitLeft(rect1)
         elif leftOverlap<topOverlap and leftOverlap<bottomOverlap:#is leftOverlap the smallest?
             rect1.x+=leftOverlap*rect1MoveRatio
             rect2.x-=leftOverlap*rect2MoveRatio
+            rect1.hitLeft(rect2)
+            rect2.hitRight(rect1)
         elif topOverlap<bottomOverlap:#is topOverlap the smallest?
             rect1.y+=topOverlap*rect1MoveRatio
             rect2.y-=topOverlap*rect2MoveRatio
+            rect1.hitTop(rect2)
+            rect2.hitBottom(rect1)
         else:#bottomOverlap is the smallest
             rect1.y-=bottomOverlap*rect1MoveRatio
             rect2.y+=bottomOverlap*rect2MoveRatio
+            rect1.hitBottom(rect2)
+            rect2.hitTop(rect1)
     
     def handleDynamicRectVsDynamicRectCollision(self, dynamicRect1, dynamicRect2):
         self.handleRectVsRectCollision(dynamicRect1, dynamicRect2, .5)
