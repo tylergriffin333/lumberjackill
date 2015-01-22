@@ -5,7 +5,7 @@
 from graphicsProxyRabbyt import GraphicsProxyRabbyt
 #from graphicsProxyPygame import GraphicsProxyPygame
 from gameModule import GameModule
-import utils
+import constants
 
 class GraphicsRenderer(GameModule):
     def __init__(self, game):
@@ -15,10 +15,9 @@ class GraphicsRenderer(GameModule):
         #self.graphicsProxy=GraphicsProxyPygame()
         
         self.screenHeight=20.0#this is the screen-height in game-units
-        pixelToGameUnitRatio=100.0#for each image, there should be a 100 to 1 pixel to game unit ratio
         self.scale=self.graphicsProxy.heightPix/self.screenHeight#game unit to screen pixel ratio
         self.screenWidth=self.graphicsProxy.widthPix/self.scale
-        self.pixScale=self.scale/pixelToGameUnitRatio#this is what we should scale images by when loading them in
+        self.pixScale=self.scale/constants.pixelToGameUnitRatio#this is what we should scale images by when loading them in
         #print(self.pixScale)
         self.screenX=0#the current screen position on the map
         self.screenY=0
