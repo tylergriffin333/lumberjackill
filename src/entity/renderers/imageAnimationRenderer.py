@@ -7,12 +7,12 @@ class ImageAnimationRenderer(Renderer):
         Renderer.__init__(self, graphicsRenderer)
         imageNames=assetLoader.loadAnimation(animationFilename, self)
         self.totalAnimationLength=self.uniformFrameLength*len(imageNames)
-        self.timeOffset=utils.getRandom()*self.totalAnimationLength
+        self.timeOffset=int(utils.getRandom()*self.totalAnimationLength)
         self.rightImages=graphicsRenderer.loadImages(imageNames)
         self.leftImages=graphicsRenderer.loadImagesFlippedHorizontally(imageNames)
         
     def getCurImage(self):
-        curFrame=(utils.getCurMilliseconds()%self.totalAnimationLength)/len(self.rightImages)
+        curFrame=((utils.getCurMilliseconds()+self.timeOffset)%self.totalAnimationLength)/self.uniformFrameLength
         
         if self.xVel>0:
             return self.rightImages[curFrame]

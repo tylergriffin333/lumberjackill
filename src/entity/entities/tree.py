@@ -5,7 +5,7 @@ from imageAnimationRenderer import ImageAnimationRenderer
 
 class Tree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):#TODO: should inherit from FallingEntity
     def __init__(self, game, x, y):
-        PosDimEntity.__init__(self, game, x, y, 1.07, 1.52)
+        PosDimEntity.__init__(self, game, x, y, 1.07, 1.67)
         FallingEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
         ImageAnimationRenderer.__init__(self, game.graphicsRenderer, "evil_tree/running.animation")#TODO: need to make all things shared between instances static
