@@ -1,3 +1,9 @@
+#TODO: need to find out which tiles and entities are colliding with the screen plus a one game unit buffer every frame.
+    #only these entities should have their visuals and audio rendered
+
+#TODO: need to use rabbyt for collision.  need RabbytCollisionProxy
+    #should do group vs group every frame, but also be able to send in single colliders to check against the group dynamically.
+
 from gameModule import GameModule
 
 class CollisionSystem(GameModule):

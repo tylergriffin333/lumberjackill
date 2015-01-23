@@ -2,6 +2,8 @@
 #This class should do all the scaling.  
 #this class should not care what drawing/windowing library graphicsProxy uses.
 
+#TODO: should only render items that are on/near screen.
+
 from graphicsProxyRabbyt import GraphicsProxyRabbyt
 #from graphicsProxyPygame import GraphicsProxyPygame
 from gameModule import GameModule
