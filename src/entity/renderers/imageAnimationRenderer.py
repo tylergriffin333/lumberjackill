@@ -5,10 +5,13 @@
     #imageAnimationRenderer should be able to use different x and y offsets for different animations.
     #each type of animated entity should have it's own extension of imageAnimationRenderer, rather than extending imageAnimationRenderer directly.
         #for example, the tree class should not pass animation file paths to imageAnimationRenderer.  that information should be stored in treeAnimationRenderer, which should extend imageAnimationRenderer.
-    #each .animation file (and associated animation class instance) should have a name to make the animation-switching code more readable.
-        #ImageAnimationRenderer can create a map to associate the name to the index in it's "animations" array.
+    #each extension of imageAnimationRenderer should store each animation under it's own variable, with a unique name that identifies that animation.
+        #so you would load the "animations/evil_tree/running.animation" file into the: evilTreeImageAnimationRenderer.running variable
 
 #TODO: need to make shared resources between animation and imageRenderer instances static.  right now I'm loading the same images multiple times. 
+
+#TODO: left and right facing images should not be stored.  should store one and flip it dynamically.
+    #should add a "drawImageHorizontallyFlipped()" function to graphicsRenderer and graphicsProxy
 
 from renderer import Renderer
 import assetLoader
