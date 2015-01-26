@@ -1,5 +1,5 @@
 from dynamicEntity import DynamicEntity
-import utils
+import constants
 
 class FallingEntity(DynamicEntity):
     def __init__(self, game, x, y):
@@ -16,7 +16,7 @@ class FallingEntity(DynamicEntity):
         DynamicEntity.run(self)
         
         if not self.onGround:
-            self.yVel+=utils.gravAccel*self.game.delta
+            self.yVel+=constants.gravAccel*self.game.delta
             
         if self.yVel>self.termVel: self.yVel=self.termVel
         

@@ -3,7 +3,7 @@ from fallingEntity import FallingEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageAnimationRenderer import ImageAnimationRenderer
 
-class Tree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):#TODO: should inherit from FallingEntity
+class Tree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, 1.07, 1.67)
         FallingEntity.__init__(self, game, x, y)

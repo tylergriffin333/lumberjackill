@@ -8,10 +8,7 @@
     #each extension of imageAnimationRenderer should store each animation under it's own variable, with a unique name that identifies that animation.
         #so you would load the "animations/evil_tree/running.animation" file into the: evilTreeImageAnimationRenderer.running variable
 
-#TODO: need to make shared resources between animation and imageRenderer instances static.  right now I'm loading the same images multiple times. 
-
-#TODO: left and right facing images should not be stored.  should store one and flip it dynamically.
-    #should add a "drawImageHorizontallyFlipped()" function to graphicsRenderer and graphicsProxy
+#TODO: need to make shared resources between animation instances static.  right now I'm loading the same images multiple times. 
 
 from renderer import Renderer
 import assetLoader

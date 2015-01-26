@@ -3,6 +3,7 @@ from dynamicEntity import DynamicEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageRenderer import ImageRenderer
 import utils
+import constants
 
 class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TODO: should inherit from FallingEntity
     def __init__(self, game, x, y):
@@ -16,7 +17,7 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TOD
         self.termVel=1#.01#max fall speed
         self.xAccel=self.maxSpeed/300#how much you accelerate left or right per millisecond
         self.frictionDeccel=self.maxSpeed/100.0#decceleration caused by friction.  how much to slow down by every millisecond
-        self.gravAccel=.00005#how fast you fall (acceleration due to gravity per millisecond) TODO: this should be in a util class as a universal constant
+        self.gravAccel=constants.gravAccel#how fast you fall (acceleration due to gravity per millisecond)
         self.inAirMoveRatio=.5#xAccel*inAirMoveRatio is how fast you can accelerate via controls when in-air
         self.jumpSpeed=-.012#your speed in the upward direction when when you jump 
         self.onGround=False
