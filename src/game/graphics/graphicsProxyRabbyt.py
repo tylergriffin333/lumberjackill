@@ -18,6 +18,7 @@ class GraphicsProxyRabbyt():
         self.white=[1, 1, 1]
         
         self.images=[]
+        self.imagesNameIndex=dict()
         
     def drawText(self, color, x, y, text):
         pass
@@ -34,27 +35,34 @@ class GraphicsProxyRabbyt():
     def swapBuffer(self):
         pygame.display.flip()
         
-    def loadImageFlipHorizontally(self, filename, scale):#TODO: prevent loading duplicate images
-        imageIndex=self.loadImage(filename, scale)
-        self.images[imageIndex].scale_x*=-1
-        return imageIndex
+    def loadImageFlipHorizontally(self, filename, scale):
+        return self.loadImageScaleX(filename, scale, -1)
     
-    def loadImage(self, filename, scale):#TODO: prevent loading duplicate images
-        image=assetLoader.loadRabbytImage(filename)
-        image.scale=scale
-        self.images.append(image)
-        return len(self.images)-1#return imageIndex
+    def loadImage(self, filename, scale):
+        return self.loadImageScaleX(filename, scale, 1)
+    
+    def loadImageScaleX(self, filename, scale, multiplyScaleX):
+        if self.imagesNameIndex.has_key(filename):
+            return self.imagesNameIndex[filename]#already loaded image.  return existing image index
+        else:#first time image is being loaded.
+            image=assetLoader.loadRabbytImage(filename)
+            image.scale=scale
+            image.scale_x*=multiplyScaleX
+            self.images.append(image)
+            imageIndex=len(self.images)-1
+            self.imagesNameIndex[filename]=imageIndex#store filename so we can prevent loading duplicate images
+            return imageIndex#return imageIndex
     
     def drawImage(self, imageIndex, x, y, width, height):
-        image=self.images[imageIndex]
-        image.x=x+width/2-self.widthPix/2
-        image.y=-y-height/2+self.heightPix/2
-        image.render()
+        self.drawImageScaleX(imageIndex, x, y, width, height, 1)
         
     def drawImageFlippedHorizontally(self, imageIndex, x, y, width, height):
+        self.drawImageScaleX(imageIndex, x, y, width, height, -1)
+        
+    def drawImageScaleX(self, imageIndex, x, y, width, height, multiplyScaleX):
         image=self.images[imageIndex]
         image.x=x+width/2-self.widthPix/2
         image.y=-y-height/2+self.heightPix/2
-        image.scale_x*=-1#flip
+        image.scale_x*=multiplyScaleX#flip (if -1 is sent in)
         image.render()
-        image.scale_x*=-1#flip back
+        image.scale_x*=multiplyScaleX#flip back

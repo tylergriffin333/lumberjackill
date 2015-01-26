@@ -23,7 +23,7 @@ class ImageAnimationRenderer(Renderer):
         imageNames=assetLoader.loadAnimation(animationFilename, self)
         self.totalAnimationLength=self.uniformFrameLength*len(imageNames)
         self.timeOffset=int(utils.getRandom()*self.totalAnimationLength)
-        self.images=graphicsRenderer.loadImages(imageNames)
+        self.images=self.graphicsRenderer.loadImages(imageNames)
         
     def getCurImage(self):
         curFrame=((utils.getCurMilliseconds()+self.timeOffset)%self.totalAnimationLength)/self.uniformFrameLength
