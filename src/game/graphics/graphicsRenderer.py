@@ -60,6 +60,10 @@ class GraphicsRenderer(GameModule):
         screenPixelPos=self.gamePosToScreenPixPos(x, y)
         self.graphicsProxy.drawImage(imageIndex, screenPixelPos[0], screenPixelPos[1], width*self.scale, height*self.scale)
         
+    def drawImageFlippedHorizontally(self, imageIndex, x, y, width, height):
+        screenPixelPos=self.gamePosToScreenPixPos(x, y)
+        self.graphicsProxy.drawImageFlippedHorizontally(imageIndex, screenPixelPos[0], screenPixelPos[1], width*self.scale, height*self.scale)
+        
     def drawRect(self, rect):
         self.graphicsProxy.drawRectangle(rect.left*100, rect.top*100, rect.width*100, rect.height*100, self.graphicsProxy.black, 1)
         

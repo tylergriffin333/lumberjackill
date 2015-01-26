@@ -50,3 +50,11 @@ class GraphicsProxyRabbyt():
         image.x=x+width/2-self.widthPix/2
         image.y=-y-height/2+self.heightPix/2
         image.render()
+        
+    def drawImageFlippedHorizontally(self, imageIndex, x, y, width, height):
+        image=self.images[imageIndex]
+        image.x=x+width/2-self.widthPix/2
+        image.y=-y-height/2+self.heightPix/2
+        image.scale_x*=-1#flip
+        image.render()
+        image.scale_x*=-1#flip back
