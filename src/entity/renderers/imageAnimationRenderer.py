@@ -11,20 +11,23 @@
 #TODO: need to make shared resources between animation instances static.  right now I'm loading the same images multiple times. 
 
 from renderer import Renderer
-import assetLoader
 import utils
 
 class ImageAnimationRenderer(Renderer):
-    def __init__(self, graphicsRenderer, animationFilename):
+    def __init__(self, graphicsRenderer):
         Renderer.__init__(self, graphicsRenderer)
-        imageNames=assetLoader.loadAnimation(animationFilename, self)
-        self.totalAnimationLength=self.uniformFrameLength*len(imageNames)
-        self.timeOffset=int(utils.getRandom()*self.totalAnimationLength)
-        self.images=self.graphicsRenderer.loadImages(imageNames)
+        self.curAnimation=None
+
+    @property
+    def xOffset(self):
+        return self.curAnimation.xOffset
+        
+    @property
+    def yOffset(self):
+        return self.curAnimation.yOffset
         
     def getCurImage(self):
-        curFrame=((utils.getCurMilliseconds()+self.timeOffset)%self.totalAnimationLength)/self.uniformFrameLength
-        return self.images[curFrame]
+        return self.curAnimation.getCurImage(utils.getCurMilliseconds())
         
     def render(self):
         if self.xVel>0: self.graphicsRenderer.drawImage(self.getCurImage(), self.left, self.top+self.yOffset, self.width+self.xOffset, self.height)

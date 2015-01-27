@@ -1,14 +1,14 @@
 from posDimEntity import PosDimEntity
 from fallingEntity import FallingEntity
 from rectColliderDynamic import RectColliderDynamic
-from imageAnimationRenderer import ImageAnimationRenderer
+from evilTreeImageAnimationRenderer import EvilTreeImageAnimationRenderer
 
-class Tree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
+class EvilTree(PosDimEntity, EvilTreeImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, 1.07, 1.67)
+        EvilTreeImageAnimationRenderer.__init__(self, game.graphicsRenderer)#TODO: need to make all things shared between instances static
         FallingEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
-        ImageAnimationRenderer.__init__(self, game.graphicsRenderer, "evil_tree/running.animation")#TODO: need to make all things shared between instances static
         self.speed=.0085
         self.xVel=-self.speed
         
