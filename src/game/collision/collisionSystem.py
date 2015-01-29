@@ -5,10 +5,12 @@
     #should do group vs group every frame, but also be able to send in single colliders to check against the group dynamically.
 
 from gameModule import GameModule
+from collisionProxyRabbyt import CollisionProxyRabbyt
 
 class CollisionSystem(GameModule):
     def __init__(self, game):
         GameModule.__init__(self, game)
+        self.collisionProxy=CollisionProxyRabbyt()
         self.reqAttr="isCollidingWith"#required attribute for entities to have to be added to entities or tiles lists
     
     def addTile(self, tile, x, y):
@@ -105,13 +107,18 @@ class CollisionSystem(GameModule):
     
     def run(self):
         self.runCollision()
+        
+    def runGroupVsSelfCollision(self, group):
+        collisions=self.collisionProxy.runGroupVsSelfCollisionDetection(group)
+        for collision in collisions:
+            collider1=collision[0]
+            collider2=collision[1]
+            if collider1.isCollidingWith(collider2):#if the colliders are colliding
+                collider1.handleCollision(collider2)
+                collider2.handleCollision(collider1)
     
     def runCollision(self):
-        for entity1 in self.entities:#TODO: need to use rabbyt or something else.  doing brute-force in python right now (too slow)
-            for entity2 in self.entities:
-                if entity1 != entity2:
-                    if entity1.isCollidingWith(entity2):
-                        entity1.handleCollision(entity2)
+        self.runGroupVsSelfCollision(self.entities)#run ent vs ent collision detection and handling
                             
         for entity in self.entities:
             for x in range(int(entity.left), int(entity.right)+2):
