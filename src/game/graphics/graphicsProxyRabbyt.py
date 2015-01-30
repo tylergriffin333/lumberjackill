@@ -10,8 +10,8 @@ class GraphicsProxyRabbyt():
         rabbyt.data_directory = os.path.dirname(__file__)#rabbyt
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (2080, 1450)#position window
         pygame.init()
-        screenSize = self.widthPix, self.heightPix = 300, 200#1920, 1080#1680, 1050#TODO: need to get native screen res and set to that.
-        pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF)# | pygame.FULLSCREEN)#rabbyt
+        screenSize = self.widthPix, self.heightPix = 1920, 1080#300, 200#1680, 1050#TODO: need to get native screen res and set to that.
+        pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF | pygame.FULLSCREEN)#rabbyt
         rabbyt.set_viewport(screenSize)#rabbyt
         rabbyt.set_default_attribs()#rabbyt
         
