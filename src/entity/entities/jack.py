@@ -1,16 +1,20 @@
 from posDimEntity import PosDimEntity
 from dynamicEntity import DynamicEntity
 from rectColliderDynamic import RectColliderDynamic
-from imageRenderer import ImageRenderer
+from imageAnimationRenderer import ImageAnimationRenderer
+from imageAnimation import ImageAnimation
 import utils
 import constants
 
-class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TODO: should inherit from FallingEntity
+class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEntity):#TODO: should inherit from FallingEntity
     def __init__(self, game, x, y):
-        PosDimEntity.__init__(self, game, x, y, .48, .75)
+        PosDimEntity.__init__(self, game, x, y, 1.2, 2.8)
         DynamicEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
-        ImageRenderer.__init__(self, game.graphicsRenderer, "jack.png")
+        ImageAnimationRenderer.__init__(self, game.graphicsRenderer)
+        
+        self.walkingAnimation=ImageAnimation(game.graphicsRenderer, "jack/walking.animation")
+        self.curAnimation=self.walkingAnimation
         
         self.maxSpeed=.008#can't run left or right faster than this
         self.walkSpeed=self.maxSpeed*.6
@@ -22,8 +26,8 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TOD
         self.jumpSpeed=-.012#your speed in the upward direction when when you jump 
         self.onGround=False
         self.game.graphicsRenderer.jack=self
-        self.rightImage=self.image
-        self.leftImage=self.graphicsRenderer.loadImage("jack2.png")
+        #self.rightImage=self.image
+        #self.leftImage=self.graphicsRenderer.loadImage("jack2.png")
         self.releasedJumpBtnSinceLastJump=True
         
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
@@ -67,8 +71,8 @@ class Jack(PosDimEntity, ImageRenderer, RectColliderDynamic, DynamicEntity):#TOD
                 self.yVel=self.jumpSpeed
                 self.releasedJumpBtnSinceLastJump=False
                 
-            if self.xVel>0: self.image=self.rightImage
-            elif self.xVel<0: self.image=self.leftImage
+            #if self.xVel>0: self.image=self.rightImage
+            #elif self.xVel<0: self.image=self.leftImage
         else:
             self.yVel+=self.gravAccel*self.game.delta
             curXAccel*=self.inAirMoveRatio#your ability to manuver is less when you're in the air

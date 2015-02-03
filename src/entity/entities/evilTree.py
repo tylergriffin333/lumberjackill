@@ -8,8 +8,10 @@ class EvilTree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, Fallin
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, 1.07, 1.67)
         ImageAnimationRenderer.__init__(self, game.graphicsRenderer)#TODO: need to make all things shared between instances static
+        
         self.runningAnimation=ImageAnimation(game.graphicsRenderer, "evil_tree/running.animation")
         self.curAnimation=self.runningAnimation
+        
         FallingEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
         self.speed=.0085
