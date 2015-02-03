@@ -29,3 +29,4 @@ class EvilTree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, Fallin
         
     def run(self):
         FallingEntity.run(self)
+        ImageAnimationRenderer.run(self)

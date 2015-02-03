@@ -14,6 +14,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         ImageAnimationRenderer.__init__(self, game.graphicsRenderer)
         
         self.walkingAnimation=ImageAnimation(game.graphicsRenderer, "jack/walking.animation")
+        self.runningAnimation=ImageAnimation(game.graphicsRenderer, "jack/running.animation")
         self.curAnimation=self.walkingAnimation
         
         self.maxSpeed=.008#can't run left or right faster than this
@@ -49,6 +50,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         
     def run(self):
         DynamicEntity.run(self)
+        ImageAnimationRenderer.run(self)
         
         if not self.releasedJumpBtnSinceLastJump:
             if not self.game.input.jump:
@@ -82,8 +84,12 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         
         self.xVel+=self.game.input.joyAxisX*curXAccel*self.game.delta
         
-        if self.game.input.running: curMaxSpeed=self.maxSpeed
-        else: curMaxSpeed=self.walkSpeed
+        if self.game.input.running:
+            curMaxSpeed=self.maxSpeed
+            self.curAnimation=self.runningAnimation
+        else:
+            curMaxSpeed=self.walkSpeed
+            self.curAnimation=self.walkingAnimation
         
         if self.xVel<-curMaxSpeed: self.xVel=-curMaxSpeed#limit horizontal speed
         if self.xVel>curMaxSpeed: self.xVel=curMaxSpeed

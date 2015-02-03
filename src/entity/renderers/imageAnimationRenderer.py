@@ -17,6 +17,7 @@ class ImageAnimationRenderer(Renderer):
     def __init__(self, graphicsRenderer):
         Renderer.__init__(self, graphicsRenderer)
         self.curAnimation=None
+        self.facingRight=True
 
     @property
     def xOffset(self):
@@ -29,7 +30,11 @@ class ImageAnimationRenderer(Renderer):
     def getCurImage(self):
         return self.curAnimation.getCurImage(utils.getCurMilliseconds())
         
+    def run(self):
+        if self.xVel>0: self.facingRight=True#TODO: should this logic be in render()?
+        elif self.xVel<0: self.facingRight=False
+        
     def render(self):
-        if self.xVel>0: self.graphicsRenderer.drawImage(self.getCurImage(), self.left, self.top+self.yOffset, self.width+self.xOffset, self.height)
+        if self.facingRight: self.graphicsRenderer.drawImage(self.getCurImage(), self.left, self.top+self.yOffset, self.width+self.xOffset, self.height)
         else: self.graphicsRenderer.drawImageFlippedHorizontally(self.getCurImage(), self.left, self.top+self.yOffset, self.width+self.xOffset, self.height)
         #self.graphicsRenderer.drawImage(self.getCurImage(), self.left, self.top, self.width, self.height)
