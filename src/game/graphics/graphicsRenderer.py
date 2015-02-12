@@ -34,25 +34,25 @@ class GraphicsRenderer(GameModule):
         y*=self.scale
         return x, y
         
-    def loadImageFlippedHorizontally(self, filename):
-        return self.graphicsProxy.loadImageFlipHorizontally(filename, self.pixScale)
+    def loadImageFlippedHorizontally(self, filename, scale):
+        return self.graphicsProxy.loadImageFlipHorizontally(filename, self.pixScale*scale)
         
-    def loadImage(self, filename):
-        return self.graphicsProxy.loadImage(filename, self.pixScale)
+    def loadImage(self, filename, scale):
+        return self.graphicsProxy.loadImage(filename, self.pixScale*scale)
         
-    def loadImages(self, filenames):
+    def loadImages(self, filenames, scale):
         images=[]
         
         for filename in filenames:
-            images.append(self.loadImage(filename))
+            images.append(self.loadImage(filename, scale))
             
         return images
             
-    def loadImagesFlippedHorizontally(self, filenames):
+    def loadImagesFlippedHorizontally(self, filenames, scale):
         images=[]
         
         for filename in filenames:
-            images.append(self.loadImageFlippedHorizontally(filename))
+            images.append(self.loadImageFlippedHorizontally(filename, scale))
             
         return images
         

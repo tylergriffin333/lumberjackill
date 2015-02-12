@@ -6,11 +6,11 @@ import assetLoader
 import utils
 
 class ImageAnimation():
-    def __init__(self, graphicsRenderer, animationFilename):
+    def __init__(self, graphicsRenderer, animationFilename, scale):
         imageNames=assetLoader.loadAnimation(animationFilename, self)
         self.totalAnimationLength=self.uniformFrameLength*len(imageNames)
         self.timeOffset=int(utils.getRandom()*self.totalAnimationLength)
-        self.images=graphicsRenderer.loadImages(imageNames)
+        self.images=graphicsRenderer.loadImages(imageNames, scale)
     
     def getCurImage(self, curMilliseconds):
         curFrame=((curMilliseconds+self.timeOffset)%self.totalAnimationLength)/self.uniformFrameLength

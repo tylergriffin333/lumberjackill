@@ -13,9 +13,9 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         RectColliderDynamic.__init__(self, game.collisionSystem)
         ImageAnimationRenderer.__init__(self, game.graphicsRenderer)
         
-        self.walkingAnimation=ImageAnimation(game.graphicsRenderer, "jack/walking.animation")
-        self.runningAnimation=ImageAnimation(game.graphicsRenderer, "jack/running.animation")
-        self.restAnimation=ImageAnimation(game.graphicsRenderer, "jack/rest.animation")
+        self.walkingAnimation=ImageAnimation(game.graphicsRenderer, "jack/walking.animation", .5)
+        self.runningAnimation=ImageAnimation(game.graphicsRenderer, "jack/running.animation", .5)
+        self.restAnimation=ImageAnimation(game.graphicsRenderer, "jack/rest.animation", .5)
         self.curAnimation=self.walkingAnimation
         
         self.maxSpeed=.008#can't run left or right faster than this
