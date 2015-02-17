@@ -2,14 +2,14 @@ from posDimEntity import PosDimEntity
 from fallingEntity import FallingEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageAnimationRenderer import ImageAnimationRenderer
-from imageAnimation import ImageAnimation
+from imageAnimationLooping import ImageAnimationLooping
 
 class EvilTree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, 1.07, 1.67)
-        ImageAnimationRenderer.__init__(self, game.graphicsRenderer)#TODO: need to make all things shared between instances static
+        ImageAnimationRenderer.__init__(self, game.graphicsRenderer, -.20, -.10)#TODO: need to make all things shared between instances static
         
-        self.runningAnimation=ImageAnimation(game.graphicsRenderer, "evil_tree/running.animation", 1)
+        self.runningAnimation=ImageAnimationLooping(game.graphicsRenderer, "evil_tree/running.animation", 1)
         self.curAnimation=self.runningAnimation
         
         FallingEntity.__init__(self, game, x, y)

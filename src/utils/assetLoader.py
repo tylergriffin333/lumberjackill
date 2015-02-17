@@ -21,5 +21,5 @@ def loadMap(filename, game):
 def loadRabbytImage(filename):
     return rabbyt.Sprite(assetsDir+"images/"+filename)
 
-def loadAnimation(filename, imageAnimationRenderer):
-    return animationLoader.loadAnimation(assetsDir+"animations/"+filename, imageAnimationRenderer)
+def loadAnimationData(filename):
+    return animationLoader.loadAnimationData(assetsDir+"animations/"+filename)

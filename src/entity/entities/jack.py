@@ -2,20 +2,24 @@ from posDimEntity import PosDimEntity
 from dynamicEntity import DynamicEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageAnimationRenderer import ImageAnimationRenderer
-from imageAnimation import ImageAnimation
+from imageAnimationLooping import ImageAnimationLooping
+from imageAnimationNonLooping import ImageAnimationNonLooping
 import utils
 import constants
 
 class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEntity):#TODO: should inherit from FallingEntity
     def __init__(self, game, x, y):
-        PosDimEntity.__init__(self, game, x, y, 1.2, 2.8)
+        PosDimEntity.__init__(self, game, x, y, .6, 1.4)
         DynamicEntity.__init__(self, game, x, y)
         RectColliderDynamic.__init__(self, game.collisionSystem)
-        ImageAnimationRenderer.__init__(self, game.graphicsRenderer)
+        ImageAnimationRenderer.__init__(self, game.graphicsRenderer, -.04, -.035)
         
-        self.walkingAnimation=ImageAnimation(game.graphicsRenderer, "jack/walking.animation", .5)
-        self.runningAnimation=ImageAnimation(game.graphicsRenderer, "jack/running.animation", .5)
-        self.restAnimation=ImageAnimation(game.graphicsRenderer, "jack/rest.animation", .5)
+        self.walkingAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/walking.animation", .5)
+        self.runningAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/running.animation", .5)
+        self.restingAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/resting.animation", .5)
+        self.jumpingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/jumping.animation", .5)
+        self.landingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/landing.animation", .5)
+        self.choppingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/chopping.animation", .5)
         self.curAnimation=self.walkingAnimation
         
         self.maxSpeed=.008#can't run left or right faster than this
@@ -33,6 +37,9 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         self.releasedJumpBtnSinceLastJump=True
         
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
+#         if not self.onGround:#are we landing?
+#             self.curAnimation=self.landingAnimation
+#             self.landingAnimation.reset()#TODO: need a function switchAnimation(newCurAnimaiton) so I'm not setting the current animation and resetting them manually every time.
         if self.yVel>0:#is falling
             self.yVel=0#stop falling
             self.onGround=True
@@ -73,6 +80,8 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
             if self.game.input.jump and self.releasedJumpBtnSinceLastJump:#jump #TODO: do mario-style jump where you can control how high you jump based on how long you hold the button.  to do a full-height jump, you should have to hold the jump button until you reach the pinnacle of your jump.
                 self.yVel=self.jumpSpeed
                 self.releasedJumpBtnSinceLastJump=False
+                self.curAnimation=self.jumpingAnimation
+                self.jumpingAnimation.reset()
                 
             #if self.xVel>0: self.image=self.rightImage
             #elif self.xVel<0: self.image=self.leftImage
@@ -94,11 +103,12 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, DynamicEnt
         if self.xVel>curMaxSpeed: self.xVel=curMaxSpeed
         if self.yVel>self.termVel: self.yVel=self.termVel
         
-        if utils.abs(self.xVel)>self.walkSpeed:
-            self.curAnimation=self.runningAnimation
-        elif utils.abs(self.xVel)>0:
-            self.curAnimation=self.walkingAnimation
-        else:
-            self.curAnimation=self.restAnimation
+        if self.onGround and self.jumpingAnimation.isAnimationOver() and self.landingAnimation.isAnimationOver() and self.choppingAnimation.isAnimationOver():
+            if utils.abs(self.xVel)>self.walkSpeed:
+                self.curAnimation=self.runningAnimation
+            elif utils.abs(self.xVel)>0:
+                self.curAnimation=self.walkingAnimation
+            else:
+                self.curAnimation=self.restingAnimation
             
         self.onGround=False

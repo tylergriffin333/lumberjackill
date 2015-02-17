@@ -14,21 +14,15 @@ from renderer import Renderer
 import utils
 
 class ImageAnimationRenderer(Renderer):
-    def __init__(self, graphicsRenderer):
+    def __init__(self, graphicsRenderer, xOffset, yOffset):
         Renderer.__init__(self, graphicsRenderer)
         self.curAnimation=None
         self.facingRight=True
-
-    @property
-    def xOffset(self):
-        return self.curAnimation.xOffset
-        
-    @property
-    def yOffset(self):
-        return self.curAnimation.yOffset
+        self.xOffset=xOffset
+        self.yOffset=yOffset
         
     def getCurImage(self):
-        return self.curAnimation.getCurImage(utils.getCurMilliseconds())
+        return self.curAnimation.getCurImage()
         
     def run(self):
         if self.xVel>0: self.facingRight=True#TODO: should this logic be in render()?
