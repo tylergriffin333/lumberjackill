@@ -17,6 +17,7 @@ class FallingEntity(DynamicEntity):
             self.yVel=0#stop falling
             self.onGround=True
             
+            
     def run(self):
         DynamicEntity.run(self)
         

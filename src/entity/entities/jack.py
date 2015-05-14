@@ -1,13 +1,8 @@
 from posDimEntity import PosDimEntity
-from dynamicEntity import DynamicEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageAnimationRenderer import ImageAnimationRenderer
 from imageAnimationLooping import ImageAnimationLooping
-from imageAnimationNonLooping import ImageAnimationNonLooping
 from fallingEntity import FallingEntity
-import utils
-import constants
-import input
 
 class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
@@ -28,12 +23,12 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         self.jumpSpeed=-.012#your speed in the upward direction when when you jump
         
         self.game.graphicsRenderer.jack=self
+    
+    def hitTop(self, otherCollider):
+        FallingEntity.hitTop(self, otherCollider)
         
-    #def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
-        #print(self.onGround)
-        #FallingEntity.hitBottom(self, otherCollider)
-        #print(self.onGround)
-        #print()
+    def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
+        FallingEntity.hitBottom(self, otherCollider)#must manually call FallingEntity.hitBottom() to clear up ambiguity.  there are other classes that Jack inherits from who have a hitBottom() function.
         
     def updateFromInputs(self):
         curMaxSpeed=self.walkSpeed
@@ -44,7 +39,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         if self.input.right: self.xVel=curMaxSpeed
         elif self.input.left: self.xVel=-curMaxSpeed
         
-        if self.input.jump and self.onGround:#TODO: why is self.onGround always false here?
+        if self.input.jump and self.onGround:
             self.yVel=self.jumpSpeed
         
     def run(self):

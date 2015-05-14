@@ -12,7 +12,7 @@ class Game():
         self.logic=LogicRunner(self)
         
         self.input=Input(self)
-        mapFileName="map1.map"#"map_single_tile.map"
+        mapFileName="box.map"#map1.map"#"map_single_tile.map"
         mapDimensions=assetLoader.getMapDimensionsFromMapFile(mapFileName)
         self.instantiateTilesArrays(mapDimensions[0], mapDimensions[1])
         assetLoader.loadMap(mapFileName, self)
