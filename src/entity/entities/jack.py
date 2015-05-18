@@ -42,6 +42,9 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         if self.input.jump and self.onGround:
             self.yVel=self.jumpSpeed
         
+        if not self.input.jump and not self.onGround and self.yVel<0:#if you've let off of the jump button before you hit the peak of your jump
+            self.yVel=0#stop rising
+        
     def run(self):
         self.updateFromInputs()
         FallingEntity.run(self)
