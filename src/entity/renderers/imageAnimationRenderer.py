@@ -21,6 +21,10 @@ class ImageAnimationRenderer(Renderer):
         self.xOffset=xOffset
         self.yOffset=yOffset
         
+    def switchToNonLoopingAnimation(self, nonLoopingAnimation):
+        self.curAnimation=nonLoopingAnimation
+        nonLoopingAnimation.reset()
+        
     def getCurImage(self):
         return self.curAnimation.getCurImage()
         

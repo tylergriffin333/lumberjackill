@@ -67,12 +67,20 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
             
         return curXMovInput
         
+    def jump(self):
+        self.yVel=self.jumpSpeed
+        self.switchToNonLoopingAnimation(self.jumpingAnimation)
+        
     def updateFromInputs(self):
         curAccel=self.xGroundAccel
         
         if self.onGround:
+            if self.jumpingAnimation.isAnimationOver():
+                if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?  #TODO: add jumping and chopping animations.
+                elif self.xVel==0: self.curAnimation=self.restingAnimation
+                else: self.curAnimation=self.walkingAnimation
             if self.input.jump:
-                self.yVel=self.jumpSpeed
+                self.jump()
             if self.noMovementInput():#don't accelerate. decelerate.
                 decelerateRate=self.xGroundFrictionDecel*self.game.delta
                 if utils.abs(self.xVel)<=decelerateRate:
@@ -92,10 +100,6 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
             
         curMaxSpeed=self.walkSpeed
         if self.input.running: curMaxSpeed=self.maxSpeed
-        
-        if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?  #TODO: add jumping and chopping animations.
-        elif self.xVel==0: self.curAnimation=self.restingAnimation
-        else: self.curAnimation=self.walkingAnimation
         
         if self.xVel>curMaxSpeed: self.xVel=curMaxSpeed#cap speed
         elif self.xVel<-curMaxSpeed: self.xVel=-curMaxSpeed
