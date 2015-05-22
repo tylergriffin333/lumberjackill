@@ -49,6 +49,8 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
         FallingEntity.hitBottom(self, otherCollider)#must manually call FallingEntity.hitBottom() to clear up ambiguity.  there are other classes that Jack inherits from who have a hitBottom() function.
         
+    #def areAnimationsOver(self, animations): #TODO: this function should accept 0-n animations and return true if all are over, else false.
+        
     def noMovementInput(self):
         if self.getCurXMovInput()==0:#no or both direction arrows are down, and the joystick is centered.
             return True
@@ -91,7 +93,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         curMaxSpeed=self.walkSpeed
         if self.input.running: curMaxSpeed=self.maxSpeed
         
-        if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?
+        if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?  #TODO: add jumping and chopping animations.
         elif self.xVel==0: self.curAnimation=self.restingAnimation
         else: self.curAnimation=self.walkingAnimation
         
