@@ -2,8 +2,10 @@ from posDimEntity import PosDimEntity
 from rectColliderDynamic import RectColliderDynamic
 from imageAnimationRenderer import ImageAnimationRenderer
 from imageAnimationLooping import ImageAnimationLooping
+from imageAnimationNonLooping import ImageAnimationNonLooping
 from fallingEntity import FallingEntity
 import utils
+
 
 class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
@@ -12,8 +14,13 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         RectColliderDynamic.__init__(self, game.collisionSystem)
         ImageAnimationRenderer.__init__(self, game.graphicsRenderer, -.04, -.035)#TODO: need to make all things shared between instances static
         
+        self.walkingAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/walking.animation", .5)
         self.runningAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/running.animation", .5)
-        self.curAnimation=self.runningAnimation
+        self.restingAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/resting.animation", .5)
+        self.jumpingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/jumping.animation", .5)
+        self.landingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/landing.animation", .5)
+        self.choppingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/chopping.animation", .5)
+        self.curAnimation=self.restingAnimation
         
         self.input=self.game.input
         
@@ -28,11 +35,35 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         
         self.game.graphicsRenderer.jack=self
     
+    def hitLeft(self, otherCollider):
+        if self.xVel<0:
+            self.xVel=0
+    
+    def hitRight(self, otherCollider):
+        if self.xVel>0:
+            self.xVel=0
+    
     def hitTop(self, otherCollider):
         FallingEntity.hitTop(self, otherCollider)
         
     def hitBottom(self, otherCollider):#called if your bottom hits something else's top (you've landed on the "ground"
         FallingEntity.hitBottom(self, otherCollider)#must manually call FallingEntity.hitBottom() to clear up ambiguity.  there are other classes that Jack inherits from who have a hitBottom() function.
+        
+    def noMovementInput(self):
+        if self.getCurXMovInput()==0:#no or both direction arrows are down, and the joystick is centered.
+            return True
+        return False
+    
+    def getCurXMovInput(self):
+        curXMovInput=0
+        
+        if self.input.joyAxisX!=0:#prioritize controller input movement if available
+            curXMovInput+=self.input.joyAxisX
+        else:#keyboard input movement
+            if self.input.right: curXMovInput+=1
+            if self.input.left: curXMovInput-=1
+            
+        return curXMovInput
         
     def updateFromInputs(self):
         curAccel=self.xGroundAccel
@@ -40,7 +71,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         if self.onGround:
             if self.input.jump:
                 self.yVel=self.jumpSpeed
-            if (self.input.right and self.input.left) or not (self.input.right and self.input.left):#no or both direction arrows are down.  don't accelerate. decelerate.
+            if self.noMovementInput():#don't accelerate. decelerate.
                 decelerateRate=self.xGroundFrictionDecel*self.game.delta
                 if utils.abs(self.xVel)<=decelerateRate:
                     self.xVel=0
@@ -54,14 +85,15 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
             if not self.input.jump and self.yVel<0:#if you've let off of the jump button before you hit the peak of your jump
                 self.yVel=0#stop rising
             curAccel=self.xAirAccel
-            
-        if self.input.right: self.xVel+=curAccel*self.game.delta
-        if self.input.left: self.xVel-=curAccel*self.game.delta
         
-        #self.xVel=self.input.joyAxisX*curMaxSpeed
+        self.xVel+=curAccel*self.game.delta*self.getCurXMovInput()#accelerate left or right based on input
             
         curMaxSpeed=self.walkSpeed
         if self.input.running: curMaxSpeed=self.maxSpeed
+        
+        if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?
+        elif self.xVel==0: self.curAnimation=self.restingAnimation
+        else: self.curAnimation=self.walkingAnimation
         
         if self.xVel>curMaxSpeed: self.xVel=curMaxSpeed#cap speed
         elif self.xVel<-curMaxSpeed: self.xVel=-curMaxSpeed
