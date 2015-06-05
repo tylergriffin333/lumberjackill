@@ -14,6 +14,7 @@ class Input():#TODO: should this inherit from gameModule?
         self.joyAxisX=0.0
         self.joyAxisY=0.0
         self.running=False
+        self.attack=False
         pygame.joystick.init()
         self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
         for joystick in self.joysticks:
@@ -79,6 +80,7 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=True
         elif code==pygame.K_w or code==pygame.K_UP: self.jump=True
         elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=True
+        elif code==pygame.K_SPACE or code==pygame.K_f: self.attack=True
             
     def keyReleased(self, e):
         code=e.key
@@ -89,6 +91,7 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=False
         elif code==pygame.K_w or code==pygame.K_UP: self.jump=False
         elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=False
+        elif code==pygame.K_SPACE or code==pygame.K_f: self.attack=False
         
     def mouseMoved(self, e):
         #self.curMouseScreenPos=e.pos
