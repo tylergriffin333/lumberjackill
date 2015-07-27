@@ -20,3 +20,12 @@ class GameModule():
     def addEntity(self, entity):
         if hasattr(entity, self.reqAttr):
             self.entities.append(entity)
+            
+    
+    def removeTile(self, tile):
+        if self.tiles[tile.x, tile.y]==tile:
+            self.tiles=None
+            
+    def removeEntity(self, entity):
+        if entity in self.entities:
+            self.entities.remove(entity)

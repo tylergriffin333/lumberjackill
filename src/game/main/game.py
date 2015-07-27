@@ -30,6 +30,16 @@ class Game():
         self.collisionSystem.addEntity(entity)
         self.logic.addEntity(entity)
         
+    def removeTile(self, tile, x, y):
+        self.graphicsRenderer.removeTile(tile, x, y)
+        self.collisionSystem.removeTile(tile, x, y)
+        self.logic.removeTile(tile, x, y)
+        
+    def removeEntity(self, entity):
+        self.graphicsRenderer.removeEntity(entity)
+        self.collisionSystem.removeEntity(entity)
+        self.logic.removeEntity(entity)
+        
     def instantiateTilesArrays(self, width, height):
         self.graphicsRenderer.instantiateTilesArray(width, height)
         self.collisionSystem.instantiateTilesArray(width, height)

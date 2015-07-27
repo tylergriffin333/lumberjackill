@@ -26,6 +26,9 @@ class EvilTree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, Fallin
     def hitTop(self, otherCollider):
         if self.yVel<0:
             self.yVel=0
+            
+        if otherCollider.team=="jack":#TODO: Should have a "baddie" class or a "stompable" class that holds this functionality.
+            self.game.removeEntity(self)
         
     def run(self):
         FallingEntity.run(self)

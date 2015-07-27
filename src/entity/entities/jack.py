@@ -33,6 +33,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         self.xAirAccel=.000025#how much you can accelerate in the x direction per millisecond when in the air
         self.xGroundFrictionDecel=.00004#how fast you slow down to a stop when on the ground and not running or walking.
         
+        self.team="jack"
         self.game.graphicsRenderer.jack=self
     
     def hitLeft(self, otherCollider):
