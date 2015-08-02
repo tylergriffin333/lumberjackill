@@ -27,6 +27,12 @@ def pow(n, p):
 
 def getRandom():
     return random.random()
+
+def getRandomIntZeroMax(max):
+    return getRandomIntInRange(0, max)
+
+def getRandomIntInRange(min, max):
+    return random.randint(min, max)
     
 def exit():
     sys.exit()
