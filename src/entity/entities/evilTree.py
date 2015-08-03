@@ -31,7 +31,8 @@ class EvilTree(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, Fallin
             
         if otherCollider.team=="jack":#TODO: Should have a "baddie" class or a "stompable" class that holds this functionality.
             self.game.removeEntity(self)
-            
+            #TODO: this chunk of code is getting hit more than once when Jack stomps evilTree.  fix.
+            #TODO: all evilTree instances are being removed, not just this one.  fix. (this only happens when there are not yet any evilFirewood instances in the map)
             for x in range(utils.getRandomIntInRange(2, 4)):
                 self.game.addEntity(EvilFirewood(self.game, self.x+utils.getRandom()*.1, self.y+utils.getRandom()*.1))
         
