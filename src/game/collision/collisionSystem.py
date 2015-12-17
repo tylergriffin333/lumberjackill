@@ -115,12 +115,12 @@ class CollisionSystem(GameModule):
             collider2=collision[1]
             if collider1.isCollidingWith(collider2):#if the colliders are colliding
                 collider1.handleCollision(collider2)
-                collider2.handleCollision(collider1)
+                #collider2.handleCollision(collider1)
     
     def runCollision(self):
-        self.runGroupVsSelfCollision(self.entities)#run ent vs ent collision detection and handling
+        self.runGroupVsSelfCollision(self.entities)#run entity vs entity collision detection and handling
                             
-        for entity in self.entities:
+        for entity in self.entities:#do entity vs tiles collision
             for x in range(int(entity.left), int(entity.right)+2):
                 for y in range(int(entity.top), int(entity.bottom)+2):
                     if x>=0 and x<len(self.tiles) and y>=0 and y<len(self.tiles[0]):

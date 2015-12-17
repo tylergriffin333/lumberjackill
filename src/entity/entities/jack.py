@@ -7,6 +7,8 @@ from fallingEntity import FallingEntity
 import utils
 
 
+
+
 class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEntity):
     def __init__(self, game, x, y):
         PosDimEntity.__init__(self, game, x, y, .6, 1.4)
