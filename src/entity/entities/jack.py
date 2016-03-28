@@ -35,7 +35,9 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         self.xAirAccel=.000025#how much you can accelerate in the x direction per millisecond when in the air
         self.xGroundFrictionDecel=.00004#how fast you slow down to a stop when on the ground and not running or walking.
         
-        self.team="jack"
+        self.hasLftdAtkBtnSnceLstAtk=True
+        
+        self.team="jack"#TODO: could pass this to Entity via constructors 
         self.game.graphicsRenderer.jack=self
     
     def hitLeft(self, otherCollider):
@@ -74,11 +76,18 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         self.yVel=self.jumpSpeed
         self.switchToNonLoopingAnimation(self.jumpingAnimation)
         
+    def isChopping(self):
+        return self.curAnimation==self.choppingAnimation and self.choppingAnimation.isAnimationOver()==False
+        
+    def chop(self):
+        self.switchToNonLoopingAnimation(self.choppingAnimation)
+        self.hasLftdAtkBtnSnceLstAtk=False
+        
     def updateFromInputs(self):
         curAccel=self.xGroundAccel
         
         if self.onGround:
-            if self.jumpingAnimation.isAnimationOver():
+            if self.jumpingAnimation.isAnimationOver() and self.choppingAnimation.isAnimationOver():
                 if utils.abs(self.xVel)>self.walkSpeed: self.curAnimation=self.runningAnimation#walk, run, or rest animation?  #TODO: add jumping and chopping animations.
                 elif self.xVel==0: self.curAnimation=self.restingAnimation
                 else: self.curAnimation=self.walkingAnimation
@@ -98,6 +107,12 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
             if not self.input.jump and self.yVel<0:#if you've let off of the jump button before you hit the peak of your jump
                 self.yVel=0#stop rising
             curAccel=self.xAirAccel
+            
+        if self.input.attack:
+            if self.choppingAnimation.isAnimationOver() and self.hasLftdAtkBtnSnceLstAtk:
+                self.chop()
+        else:
+            self.hasLftdAtkBtnSnceLstAtk=True
         
         self.xVel+=curAccel*self.game.delta*self.getCurXMovInput()#accelerate left or right based on input
             
