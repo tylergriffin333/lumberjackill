@@ -80,7 +80,7 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=True
         elif code==pygame.K_w or code==pygame.K_UP: self.jump=True
         elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=True
-        elif code==pygame.K_SPACE or code==pygame.K_f: self.attack=True
+        elif code==pygame.K_SPACE or code==pygame.K_c: self.attack=True
             
     def keyReleased(self, e):
         code=e.key
@@ -91,7 +91,7 @@ class Input():#TODO: should this inherit from gameModule?
         elif code==pygame.K_d or code==pygame.K_RIGHT: self.right=False
         elif code==pygame.K_w or code==pygame.K_UP: self.jump=False
         elif code==pygame.K_LSHIFT or code==pygame.K_RSHIFT: self.running=False
-        elif code==pygame.K_SPACE or code==pygame.K_f: self.attack=False
+        elif code==pygame.K_SPACE or code==pygame.K_c: self.attack=False
         
     def mouseMoved(self, e):
         #self.curMouseScreenPos=e.pos
