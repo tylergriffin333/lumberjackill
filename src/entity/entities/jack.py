@@ -21,7 +21,7 @@ class Jack(PosDimEntity, ImageAnimationRenderer, RectColliderDynamic, FallingEnt
         self.restingAnimation=ImageAnimationLooping(game.graphicsRenderer, "jack/resting.animation", .5)
         self.jumpingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/jumping.animation", .5)
         self.landingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/landing.animation", .5)
-        self.choppingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/chopping.animation", .5)
+        self.choppingAnimation=ImageAnimationNonLooping(game.graphicsRenderer, "jack/chopping.animation", .5)#TODO: improve chopping animation: jack's legs should bend.
         self.curAnimation=self.restingAnimation
         
         self.input=self.game.input
