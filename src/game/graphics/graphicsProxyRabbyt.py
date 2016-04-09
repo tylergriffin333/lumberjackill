@@ -11,7 +11,7 @@ class GraphicsProxyRabbyt():
         #os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (200, 200)#position window
         pygame.init()
         displayInfo=pygame.display.Info()
-        screenSize = self.widthPix, self.heightPix = displayInfo.current_w, displayInfo.current_h
+        screenSize = self.widthPix, self.heightPix = displayInfo.current_w, displayInfo.current_h#TODO: this treats two screens as one on ubuntu, putting jack on the bevel between my 2 monitors. fix for linux so we're only on a single physical monitor.
         pygame.display.set_mode(screenSize, pygame.OPENGL | pygame.DOUBLEBUF | pygame.FULLSCREEN)#rabbyt
         rabbyt.set_viewport(screenSize)#rabbyt
         rabbyt.set_default_attribs()#rabbyt
